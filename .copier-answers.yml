@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 4.5.3
+_src_path: https://github.com/epics-containers/ioc-template
+description: A generic IOC for a Thermo FHT6020A Radiation Monitor
+git_platform: github.com
+github_org: epics-containers
+name: ioc-thermofht6020a
+repo_uri: git@github.com:epics-containers/ioc-thermofht6020a.git
+rtems: false
