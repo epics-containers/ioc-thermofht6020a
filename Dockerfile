@@ -1,8 +1,8 @@
 ARG IMAGE_EXT
 
 ARG REGISTRY=ghcr.io/epics-containers
-ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.9ec5
-ARG DEVELOPER=${REGISTRY}/epics-base${IMAGE_EXT}-developer:7.0.9ec5
+ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.10ec1
+ARG DEVELOPER=${REGISTRY}/ioc-asyn${IMAGE_EXT}-developer:4.45ec3
 # for pre-built common support and faster builds of this generic IOC:
 # - change above to￼DEVELOPER=${REGISTRY}/ioc-asyn${IMAGE_EXT}-developer:4.45ec2
 # - comment out uv pip install lines below (unless a newer ibek is needed)
@@ -26,14 +26,11 @@ WORKDIR ${SOURCE_FOLDER}/ibek-support
 COPY ibek-support/_ansible _ansible
 ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
 
-COPY ibek-support/iocStats/ iocStats
-RUN ansible.sh iocStats
+COPY ibek-support/StreamDevice/ StreamDevice/
+RUN ansible.sh StreamDevice
 
-COPY ibek-support/pvlogging/ pvlogging/
-RUN ansible.sh pvlogging
-
-COPY ibek-support/autosave/ autosave
-RUN ansible.sh autosave
+COPY ibek-support/ThermoFHT6020A/ ThermoFHT6020A/
+RUN ansible.sh ThermoFHT6020A
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
