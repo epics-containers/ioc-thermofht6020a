@@ -14,7 +14,7 @@ To update to the latest version of the template:
 
 pip install copier
 cd ioc-thermofht6020a
-copier update -a --trust .
+copier update --trust .
 ```
 
 ## Developer Container
