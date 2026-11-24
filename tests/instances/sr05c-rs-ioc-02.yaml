@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-thermofht6020a/releases/latest/download/ibek.ioc.schema.json
+
+# No builder XML uses ThermoFHT6020A: this was written by hand from the
+# released raw IOC /dls_sw/prod/R7.0.7/ioc/SR05C/SR05C-RS-IOC-02/0-7
+# (its stSR05C-RS-IOC-02.src and SR05C-RS-IOC-02.substitutions).
+# Changed, so that nobody running this test reaches a real device:
+# - 1 device address replaced with 127.0.0.1
+# - the ENGINEER and LOCATION settings and the CA port settings (the
+#   defaults) left out
+# tests/run-tests.sh runs it with start.sh --test, which generates the
+# runtime assets but does not launch the IOC.
+
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: Thermo Fisher FHT6020A radiation monitor, from SR05C-RS-IOC-02
+
+entities:
+
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: GMT0BST
+
+  - type: devIocStats.iocAdminSoft
+    IOC: '{{ ioc_name | upper }}'
+
+  - type: asyn.AsynIP
+    name: ty_0
+    port: 127.0.0.1:10001
+
+  - type: ThermoFHT6020A.ThermoFHT6020A
+    device: SR05C-RS-RDMON-01
+    port: ty_0
+    high: 1.3
+    hihi: 1.6
+    prec: 4
+
+  - type: epics.StartupCommand
+    command: |
+      asynSetTraceMask("ty_0",-1,0x1)
+      asynSetTraceIOMask("ty_0",-1,0x5)
