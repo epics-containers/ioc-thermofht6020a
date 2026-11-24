@@ -7,6 +7,7 @@
 # - 1 device address replaced with 127.0.0.1
 # - the ENGINEER and LOCATION settings and the CA port settings (the
 #   defaults) left out
+# - STREAM_PROTOCOL_PATH left out, as ibek sets it for every IOC
 # tests/run-tests.sh runs it with start.sh --test, which generates the
 # runtime assets but does not launch the IOC.
 
@@ -16,16 +17,13 @@ description: Thermo Fisher FHT6020A radiation monitor, from SR05C-RS-IOC-02
 
 entities:
 
-  - type: epics.EpicsEnvSet
-    name: EPICS_TZ
-    value: GMT0BST
-
   - type: devIocStats.iocAdminSoft
     IOC: '{{ ioc_name | upper }}'
 
   - type: asyn.AsynIP
     name: ty_0
     port: 127.0.0.1:10001
+    priority: 0
 
   - type: ThermoFHT6020A.ThermoFHT6020A
     device: SR05C-RS-RDMON-01
